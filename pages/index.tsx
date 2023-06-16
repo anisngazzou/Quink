@@ -63,7 +63,7 @@ const dataToMap =jsonDataLiked.contents.map((f,ik)=>{
               </span>
               <span className="absolute left-0 right-0 bottom-0 h-[400px] bg-gradient-to-b from-black/0 via-black to-black"></span>
             </div>
-         <h1 className='mt-8 mb-4 text-6xl font-bold uppercase tracking-widest '> QUINCK</h1>
+         <h1 className='mt-8 mb-4 text-6xl font-bold uppercase tracking-widest '> QUINK</h1>
             <h1 className="mt-8 mb-4 text-base font-bold uppercase tracking-widest">
              INK IN A BLINK
             </h1>
