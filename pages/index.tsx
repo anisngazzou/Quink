@@ -67,6 +67,7 @@ const dataToMap =jsonDataLiked.contents.map((f,ik)=>{
             <h1 className="mt-8 mb-4 text-base font-bold uppercase tracking-widest">
              INK IN A BLINK
             </h1>
+            <input  className='w-96 h-14 px-2 py-2 rounded-md z-50 text-gray-800 text-lg bg-gray-200 ' placeholder='search' type='text' onChange={(e)=>console.log(e)}/>
             <p className="max-w-[40ch] text-white/75 sm:max-w-[32ch]">
              Lorem ipsum dolor sit  consectetur adipisicing elit. Id esse error minima expedita exercitationem maiores.
             </p>
