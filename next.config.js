@@ -1,4 +1,6 @@
 module.exports = {
+  basePath: '/Quink',
+  assetPrefix: '/Quink/',
   images: {
     domains: ['cdn.prinker.net'],
     // Define remote patterns
