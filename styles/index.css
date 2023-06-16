@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@supports (font: -apple-system-body) and (-webkit-appearance: none) {
+  img[loading='lazy'] {
+    clip-path: inset(0.6px);
+  }
+  
+}
+.animate-title {
+  --x: 0;
+  --y: 0;
+  
+  background-image: linear-gradient(
+    to right,
+    from-red-500,
+    via-blue-500,
+    to-purple-500
+  );
+  background-size: 200% 100%;
+  background-position: calc(var(--x) * -1 / 20) calc(var(--y) * -1 / 20);
+  -webkit-background-clip: text;
+  
+  transition: background-position 0.2s ease-out;
+}
+
+.animate-title:hover {
+  background-position: calc(var(--x) * -1 / 10) calc(var(--y) * -1 / 10);
+}
+
