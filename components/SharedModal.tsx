@@ -27,7 +27,7 @@ export default function SharedModal({
 }: SharedModalProps) {
   const [loaded, setLoaded] = useState(false)
 
-  let filteredImages = images?.filter((img: ImageProps) =>
+  let filteredImages = images?.filter((img: any) =>
     range(index - 15, index + 15).includes(img.id)
   )
 
