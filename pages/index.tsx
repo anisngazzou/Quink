@@ -16,6 +16,7 @@ import jsonDataLiked from "../constants/liked.json";
 
 
 const Home: NextPage = ({ images }: { images: ImageProps2[] }) => {
+  const arrayOfficielDesinger : string[] = ["M_Ink","Pixabay","PrinkerAz","Prinker Korea Inc."]
   const router = useRouter()
   const[imgIndex,setImgIndex] = useState(0)
   const { photoId } = router.query
@@ -91,6 +92,7 @@ const dataToMap =jsonDataLiked.contents.map((f,ik)=>{
               shallow
               className="after:content group relative mb-5 block w-full cursor-zoom-in after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight"
             >
+              {arrayOfficielDesinger.includes(image.nickname) && <p>⭐⭐⭐</p>}
               <Image
                 alt="Next.js Conf photo"
                 className="transform rounded-lg brightness-90 transition will-change-auto group-hover:brightness-110"
@@ -106,6 +108,7 @@ const dataToMap =jsonDataLiked.contents.map((f,ik)=>{
                   (max-width: 1536px) 33vw,
                   25vw"
               />
+             <p>{image.description}</p> 
             </Link>
           ))}
         </div>
