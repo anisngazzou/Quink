@@ -23,9 +23,7 @@ const Home: NextPage = ({ images }: { images: ImageProps2[] }) => {
   const { photoId } = router.query
   const [lastViewedPhoto, setLastViewedPhoto] = useLastViewedPhoto()
   const lastViewedPhotoRef = useRef<HTMLAnchorElement>(null)
-const dataToMap =jsonDataLiked.contents.map((f,ik)=>{
-  return {id:ik,...f}
-}) .sort((a, b) => b.likeCnt - a.likeCnt)
+
   const reorderedImgList = jsonDataLiked.contents.map((f,ik)=>{
   return {id:ik,...f}
 }).filter((f)=>arrayOfficielDesinger.includes(f.nickname)).sort((a, b) => b.likeCnt - a.likeCnt);
@@ -86,38 +84,7 @@ onClick={()=>{
               Best Of
             </button> 
           </div>
-          {bestOf?(<>
-            {dataToMap.map((image:ImageProps2) => (
-            <Link
-              key={image.id}
-              // href={`https://cdn.prinker.net${image.thumbnail}`}
-              href={`/?photoId=${image.id}`}
-              as={`/p/${image.id}`}
-              onClick={()=>setImgIndex(image.id)}
-              ref={image.id === Number(lastViewedPhoto) ? lastViewedPhotoRef : null}
-              shallow
-              className="after:content group relative mb-5 block w-full cursor-zoom-in after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight"
-            >
-              {arrayOfficielDesinger.includes(image.nickname) && <p>⭐⭐⭐</p>}
-              <Image
-                alt="Next.js Conf photo"
-                className="transform rounded-lg brightness-90 transition will-change-auto group-hover:brightness-110"
-                style={{ transform: 'translate3d(0, 0, 0)' }}
-                // placeholder="blur"
-                blurDataURL={null}
-                src={`https://cdn.prinker.net${image.thumbnail}`}
-              
-                width={720}
-                height={480}
-                sizes="(max-width: 640px) 100vw,
-                  (max-width: 1280px) 50vw,
-                  (max-width: 1536px) 33vw,
-                  25vw"
-              />
-             <p className='text-white text-xs'>{image.description}</p> 
-            </Link>
-          ))}
-            </>):(<>
+          
               {dataToMap.map((image:ImageProps2) => (
             <Link
               key={image.id}
@@ -146,10 +113,12 @@ onClick={()=>{
                   25vw"
               />
              <p className='text-white text-xs'>{image.description}</p> 
+              <p className='text-white text-xs'>{image.width + " X "+image.height + "___"+image.workWidth}</p> 
+              
             </Link>
           ))}
-</>)
-          }
+
+          
         </div>
       </main>
       <footer className="p-6 text-center text-white/80 sm:p-12">
