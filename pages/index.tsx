@@ -16,15 +16,41 @@ import jsonDataLiked from "../constants/liked.json";
 
 
 const Home: NextPage = ({ images }: { images: ImageProps2[] }) => {
-  const arrayOfficielDesinger : string[] = ["M_Ink","Pixabay","PrinkerAz","Prinker Korea Inc."]
+  const arrayOfficielDesinger : string[] = ["Prinker Korea Inc.","PrinkerAz","Pixabay","M_Ink"]
   const router = useRouter()
   const[imgIndex,setImgIndex] = useState(0)
+ const[bestOf,setBestOf] = useState(false)
   const { photoId } = router.query
   const [lastViewedPhoto, setLastViewedPhoto] = useLastViewedPhoto()
   const lastViewedPhotoRef = useRef<HTMLAnchorElement>(null)
 const dataToMap =jsonDataLiked.contents.map((f,ik)=>{
   return {id:ik,...f}
 }) .sort((a, b) => b.likeCnt - a.likeCnt)
+  const reorderedImgList = jsonDataLiked.contents.map((f,ik)=>{
+  return {id:ik,...f}
+}).sort((a, b) => {
+  const aNickname = a.nickname.toLowerCase();
+  const bNickname = b.nickname.toLowerCase();
+  const aIndex = arrayOfficielDesinger.indexOf(aNickname);
+  const bIndex = arrayOfficielDesinger.indexOf(bNickname);
+
+  if (aIndex === -1 && bIndex === -1) {
+    // If both nicknames are not found in arrayOfficielDesinger,
+    // maintain the original order
+    return 0;
+  } else if (aIndex === -1) {
+    // If only aNickname is not found, bNickname should come first
+    return 1;
+  } else if (bIndex === -1) {
+    // If only bNickname is not found, aNickname should come first
+    return -1;
+  } else {
+    // Both nicknames are found in arrayOfficielDesinger,
+    // sort based on their indices in the array
+    return aIndex - bIndex;
+  }
+});
+
   useEffect(() => {
     // This effect keeps track of the last viewed photo in the modal to keep the index page in sync when the user navigates back
     if (lastViewedPhoto && !photoId) {
@@ -72,16 +98,17 @@ const dataToMap =jsonDataLiked.contents.map((f,ik)=>{
             <p className="max-w-[40ch] text-white/75 sm:max-w-[32ch]">
              Lorem ipsum dolor sit  consectetur adipisicing elit. Id esse error minima expedita exercitationem maiores.
             </p>
-            {/* <a
+             <button
               className="pointer z-10 mt-6 rounded-lg border border-white bg-white px-3 py-2 text-sm font-semibold text-black transition hover:bg-white/10 hover:text-white md:mt-4"
-              href="https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-cloudinary&project-name=nextjs-image-gallery&repository-name=with-cloudinary&env=NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,CLOUDINARY_API_KEY,CLOUDINARY_API_SECRET,CLOUDINARY_FOLDER&envDescription=API%20Keys%20from%20Cloudinary%20needed%20to%20run%20this%20application"
-              target="_blank"
-              rel="noreferrer"
+onClick={()=>{
+  setBestOf((e)=>!e)
+}}
             >
-              Clone and Deploy
-            </a> */}
+              Best Of
+            </button> 
           </div>
-          {dataToMap.map((image:ImageProps2) => (
+          {bestOf?(<>
+            {dataToMap.map((image:ImageProps2) => (
             <Link
               key={image.id}
               // href={`https://cdn.prinker.net${image.thumbnail}`}
@@ -111,6 +138,39 @@ const dataToMap =jsonDataLiked.contents.map((f,ik)=>{
              <p>{image.description}</p> 
             </Link>
           ))}
+            </>):(<>
+              {dataToMap.map((image:ImageProps2) => (
+            <Link
+              key={image.id}
+              // href={`https://cdn.prinker.net${image.thumbnail}`}
+              href={`/?photoId=${image.id}`}
+              as={`/p/${image.id}`}
+              onClick={()=>setImgIndex(image.id)}
+              ref={image.id === Number(lastViewedPhoto) ? lastViewedPhotoRef : null}
+              shallow
+              className="after:content group relative mb-5 block w-full cursor-zoom-in after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight"
+            >
+              {arrayOfficielDesinger.includes(image.nickname) && <p>⭐⭐⭐</p>}
+              <Image
+                alt="Next.js Conf photo"
+                className="transform rounded-lg brightness-90 transition will-change-auto group-hover:brightness-110"
+                style={{ transform: 'translate3d(0, 0, 0)' }}
+                // placeholder="blur"
+                blurDataURL={null}
+                src={`https://cdn.prinker.net${image.thumbnail}`}
+              
+                width={720}
+                height={480}
+                sizes="(max-width: 640px) 100vw,
+                  (max-width: 1280px) 50vw,
+                  (max-width: 1536px) 33vw,
+                  25vw"
+              />
+             <p>{image.description}</p> 
+            </Link>
+          ))}
+</>)
+          }
         </div>
       </main>
       <footer className="p-6 text-center text-white/80 sm:p-12">
