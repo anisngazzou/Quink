@@ -19,7 +19,7 @@ const Home: NextPage = ({ images }: { images: ImageProps2[] }) => {
   const arrayOfficielDesinger : string[] = ["Prinker Korea Inc.","PrinkerAz","Pixabay","M_Ink"]
   const router = useRouter()
   const[imgIndex,setImgIndex] = useState(0)
- const[bestOf,setBestOf] = useState(false)
+ const[bestOf,setBestOf] = useState(true)
   const { photoId } = router.query
   const [lastViewedPhoto, setLastViewedPhoto] = useLastViewedPhoto()
   const lastViewedPhotoRef = useRef<HTMLAnchorElement>(null)
@@ -28,28 +28,7 @@ const dataToMap =jsonDataLiked.contents.map((f,ik)=>{
 }) .sort((a, b) => b.likeCnt - a.likeCnt)
   const reorderedImgList = jsonDataLiked.contents.map((f,ik)=>{
   return {id:ik,...f}
-}).sort((a, b) => {
-  const aNickname = a.nickname.toLowerCase();
-  const bNickname = b.nickname.toLowerCase();
-  const aIndex = arrayOfficielDesinger.indexOf(aNickname);
-  const bIndex = arrayOfficielDesinger.indexOf(bNickname);
-
-  if (aIndex === -1 && bIndex === -1) {
-    // If both nicknames are not found in arrayOfficielDesinger,
-    // maintain the original order
-    return 0;
-  } else if (aIndex === -1) {
-    // If only aNickname is not found, bNickname should come first
-    return 1;
-  } else if (bIndex === -1) {
-    // If only bNickname is not found, aNickname should come first
-    return -1;
-  } else {
-    // Both nicknames are found in arrayOfficielDesinger,
-    // sort based on their indices in the array
-    return aIndex - bIndex;
-  }
-});
+}).filter((f)=>arrayOfficielDesinger.includes(f.nickname)).sort((a, b) => b.likeCnt - a.likeCnt);
 
   useEffect(() => {
     // This effect keeps track of the last viewed photo in the modal to keep the index page in sync when the user navigates back
@@ -135,7 +114,7 @@ onClick={()=>{
                   (max-width: 1536px) 33vw,
                   25vw"
               />
-             <p>{image.description}</p> 
+             <p className='text-white text-xs'>{image.description}</p> 
             </Link>
           ))}
             </>):(<>
@@ -166,7 +145,7 @@ onClick={()=>{
                   (max-width: 1536px) 33vw,
                   25vw"
               />
-             <p>{image.description}</p> 
+             <p className='text-white text-xs'>{image.description}</p> 
             </Link>
           ))}
 </>)
