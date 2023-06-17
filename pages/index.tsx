@@ -52,7 +52,7 @@ const Home: NextPage = ({ images }: { images: ImageProps2[] }) => {
       <main className="mx-auto max-w-[1960px] p-4">
         {photoId && (
           <Modal
-            images={dataToMap}
+            images={reorderedImgList }
             onClose={() => {
               setLastViewedPhoto(photoId)
             }}
@@ -85,7 +85,7 @@ onClick={()=>{
             </button> 
           </div>
           
-              {dataToMap.map((image:ImageProps2) => (
+              {reorderedImgList .map((image:ImageProps2) => (
             <Link
               key={image.id}
               // href={`https://cdn.prinker.net${image.thumbnail}`}
